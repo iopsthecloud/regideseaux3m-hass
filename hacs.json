@@ -1,0 +1,9 @@
+{
+  "name": "Régie des Eaux Montpellier",
+  "filename": "regiedeseauxmpl.zip",
+  "category": "integration",
+  "iot_class": "cloud_polling",
+  "render_readme": true,
+  "zip_release": false,
+  "content_in_root": false
+}

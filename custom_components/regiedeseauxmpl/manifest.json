@@ -1,0 +1,16 @@
+{
+  "domain": "regiedeseauxmpl",
+  "name": "Régie des Eaux Montpellier",
+  "documentation": "https://github.com/iopsthecloud/regiedeseauxmpl/blob/main/README.md",
+  "issue_tracker": "https://github.com/iopsthecloud/regiedeseauxmpl/issues",
+  "dependencies": [],
+  "codeowners": ["@iopsthecloud"],
+  "requirements": ["curl_cffi>=0.6.0"],
+  "iot_class": "cloud_polling",
+  "version": "0.2.0",
+  "integration_type": "hub",
+  "render_readme": true,
+  "license": "MIT",
+  "config_flow": true,
+  "single_config_entry": false
+}

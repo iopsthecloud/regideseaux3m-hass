@@ -1,0 +1,48 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "Régie des Eaux Montpellier",
+                "description": "Saisissez vos identifiants pour la Régie des Eaux de Montpellier Méditerranée Métropole.",
+                "data": {
+                    "username": "E-mail / Identifiant",
+                    "password": "Mot de passe"
+                }
+            }
+        },
+        "error": {
+            "cannot_connect": "Échec de connexion au serveur. Vérifiez votre connexion internet.",
+            "invalid_auth": "Authentification invalide. Vérifiez votre email et mot de passe.",
+            "unknown": "Une erreur inattendue est survenue."
+        },
+        "abort": {
+            "title": "Configuration annulée",
+            "description_placeholder": ""
+        }
+    },
+    "entity": {
+        "sensor": {
+            "water_index": {
+                "name": "Index d'eau"
+            }
+        }
+    },
+    "state": {
+        "regiedeseauxmpl": {
+            "water": "{} m³"
+        }
+    },
+    "select": {
+        "update_interval": {
+            "name": "Intervalle de mise à jour",
+            "options": {
+                "3600": "1 heure",
+                "7200": "2 heures",
+                "10800": "3 heures",
+                "21600": "6 heures",
+                "43200": "12 heures",
+                "86400": "24 heures"
+            }
+        }
+    }
+}

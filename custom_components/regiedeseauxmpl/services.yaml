@@ -1,0 +1,16 @@
+refresh_meters:
+  name: Refresh water meters
+  description: Force a refresh of all water meter data from Régie des Eaux API
+  target:
+    entity:
+      domain: sensor
+      integration: regiedeseauxmpl
+  fields:
+    force:
+      name: Force refresh
+      description: Force refresh even if data was recently updated
+      required: false
+      default: false
+      example: true
+      selector:
+        boolean:

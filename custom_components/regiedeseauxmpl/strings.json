@@ -1,0 +1,13 @@
+{
+  "title": "Régie des Eaux Montpellier",
+  "domain": "regiedeseauxmpl",
+  "config_flow.title": "Régie des Eaux Montpellier",
+  "config_flow.description": "Récupérer les index de consommation d'eau de la Régie des Eaux de Montpellier",
+  "config_flow.username": "Adresse email",
+  "config_flow.password": "Mot de passe",
+  "config_flow.cannot_connect": "Impossible de se connecter à l'API. Vérifiez votre connexion internet.",
+  "config_flow.invalid_auth": "Identifiants invalides. Vérifiez votre email et mot de passe.",
+  "config_flow.unknown": "Une erreur inattendue est survenue.",
+  "config_flow.abort": "Configuration annulée",
+  "config_flow.reauth": "Réauthentification nécessaire"
+}

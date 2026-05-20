@@ -1,0 +1,26 @@
+[project]
+name = "regiedeseauxmpl"
+version = "0.2.0"
+requires-python = ">=3.14"
+dependencies = [
+    "aiohttp",
+    "async-timeout",
+    "curl_cffi",  # Essentiel pour contourner F5 BIG-IP TLS fingerprinting
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "httpx",  # Pour les mocks HTTP si besoin
+    "aioresponses",  # Pour tester sans appeler l'API réelle
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
