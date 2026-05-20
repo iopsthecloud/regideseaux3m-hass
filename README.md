@@ -1,6 +1,6 @@
 # Régie des Eaux Montpellier
 
-[![HACS][hacs-badge]][hacs] [![License: MIT][license-badge]][license] [![Python 3.14+][python-badge]] [![GitHub Release][release-badge]][release] [![GitHub Last Commit][last-commit-badge]][repo]
+[![Open in my Home Assistant](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=iopsthecloud&repository=regideseaux3m-hass&category=integration) [![HACS][hacs-badge]][hacs] [![License: MIT][license-badge]][license] [![Python 3.14+][python-badge]] [![GitHub Release][release-badge]][release] [![GitHub Last Commit][last-commit-badge]][repo]
 
 > **Intégration Home Assistant pour récupérer les index de consommation d'eau de la Régie des Eaux de Montpellier Méditerranée Métropole**
 
@@ -107,6 +107,8 @@ Cette intégration utilise **l'API interne** (découverte par reverse engineerin
 ---
 
 ## 📥 **Installation**
+
+[![Open in my Home Assistant](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=iopsthecloud&repository=regideseaux3m-hass&category=integration)
 
 ### Via HACS (Recommandé) 🎉
 
@@ -746,6 +748,7 @@ Pour du support :
 
 [hacs]: https://hacs.xyz
 [hacs-badge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge&logo=homeassistantcommunitystore
+[hacs-repo]: https://my.home-assistant.io/redirect/hacs_repository/?owner=iopsthecloud&repository=regideseaux3m-hass&category=integration
 [license]: LICENSE
 [license-badge]: https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge&logo=open-source-initiative
 [python-badge]: https://img.shields.io/badge/Python-3.14%2B-blue.svg?style=for-the-badge&logo=python
