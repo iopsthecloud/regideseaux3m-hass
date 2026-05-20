@@ -116,7 +116,7 @@ Cette intégration utilise **l'API interne** (découverte par reverse engineerin
 2. **Ajoutez le dépôt personnalisé**
    - Cliquez sur les **trois points (⋮)** en haut à droite
    - Sélectionnez **"Dépôts personnalisés"**
-   - Ajoutez l'URL du dépôt : `https://github.com/iopsthecloud/regiedeseauxmpl`
+   - Ajoutez l'URL du dépôt : `https://github.com/iopsthecloud/regideseaux3m-hass`
    - Sélectionnez la catégorie : **"Intégration"**
    - Cliquez sur **"Ajouter"**
 
@@ -134,7 +134,7 @@ Cette intégration utilise **l'API interne** (découverte par reverse engineerin
 ### Installation manuelle
 
 1. **Téléchargez la dernière version**
-   - Allez dans les [Releases](https://github.com/iopsthecloud/regiedeseauxmpl/releases) de ce dépôt
+   - Allez dans les [Releases](https://github.com/iopsthecloud/regideseaux3m-hass/releases) de ce dépôt
    - Téléchargez le fichier `regiedeseauxmpl-*.zip`
 
 2. **Décompressez le fichier**
@@ -569,7 +569,7 @@ L'intégration propose des outils de diagnostic :
 
 ```bash
 # Cloner le dépôt
-git clone https://github.com/iopsthecloud/regiedeseauxmpl.git
+git clone https://github.com/iopsthecloud/regideseaux3m-hass.git
 cd regiedeseauxmpl
 
 # Créer l'environnement et installer les dépendances
@@ -695,7 +695,7 @@ Les contributions sont **les bienvenues** ! Voici comment aider :
 
 ### 🐛 **Signaler un problème**
 
-- Ouvrez une [Issue](https://github.com/iopsthecloud/regiedeseauxmpl/issues)
+- Ouvrez une [Issue](https://github.com/iopsthecloud/regideseaux3m-hass/issues)
 - Incluez :
   - Votre version de Home Assistant
   - La version de l'intégration (dans `manifest.json`)
@@ -709,7 +709,7 @@ Les contributions sont **les bienvenues** ! Voici comment aider :
 2. Créez une branche (`git checkout -b feature/amazing-feature`)
 3. Commitez vos changements (`git commit -m 'Add amazing feature'`)
 4. Poussez vers votre fork (`git push origin feature/amazing-feature`)
-5. Ouvrez une [Pull Request](https://github.com/iopsthecloud/regiedeseauxmpl/pulls)
+5. Ouvrez une [Pull Request](https://github.com/iopsthecloud/regideseaux3m-hass/pulls)
 
 ### 🌍 **Traduire dans une autre langue**
 
@@ -738,7 +738,7 @@ Ce projet est sous licence **MIT** - voir le fichier [LICENSE](LICENSE) pour plu
 ## 💬 **Support**
 
 Pour du support :
-- **Ouvrez une Issue** : [GitHub Issues](https://github.com/iopsthecloud/regiedeseauxmpl/issues)
+- **Ouvrez une Issue** : [GitHub Issues](https://github.com/iopsthecloud/regideseaux3m-hass/issues)
 - **Forum Home Assistant FR** : [Discussion sur le forum](https://community.home-assistant.io/)
 - **Documentation officielle** : [HACS](https://www.hacs.xyz/) | [Home Assistant Dev](https://developers.home-assistant.io/)
 
@@ -749,7 +749,7 @@ Pour du support :
 [license]: LICENSE
 [license-badge]: https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge&logo=open-source-initiative
 [python-badge]: https://img.shields.io/badge/Python-3.14%2B-blue.svg?style=for-the-badge&logo=python
-[release]: https://github.com/iopsthecloud/regiedeseauxmpl/releases
-[release-badge]: https://img.shields.io/github/release/iopsthecloud/regiedeseauxmpl.svg?style=for-the-badge&logo=github
-[repo]: https://github.com/iopsthecloud/regiedeseauxmpl
-[last-commit-badge]: https://img.shields.io/github/last-commit/iopsthecloud/regiedeseauxmpl.svg?style=for-the-badge&logo=github
+[release]: https://github.com/iopsthecloud/regideseaux3m-hass/releases
+[release-badge]: https://img.shields.io/github/release/iopsthecloud/regideseaux3m-hass.svg?style=for-the-badge&logo=github
+[repo]: https://github.com/iopsthecloud/regideseaux3m-hass
+[last-commit-badge]: https://img.shields.io/github/last-commit/iopsthecloud/regideseaux3m-hass.svg?style=for-the-badge&logo=github

@@ -21,7 +21,7 @@
 1. Ouvrez **HACS** dans Home Assistant
 2. Cliquez sur les **trois points** en haut à droite
 3. Sélectionnez **"Dépôts personnalisés"**
-4. Ajoutez ce dépôt : `https://github.com/iopsthecloud/regiedeseauxmpl`
+4. Ajoutez ce dépôt : `https://github.com/iopsthecloud/regideseaux3m-hass`
 5. Sélectionnez la catégorie **"Intégration"**
 6. Cliquez sur **"Ajouter"**
 7. Recherchez **"Régie des Eaux Montpellier"** dans HACS
@@ -137,11 +137,11 @@ Les contributions sont les bienvenues !
 
 Ce projet est sous licence MIT. Voir [LICENSE][license] pour plus de détails.
 
-[commits-shield]: https://img.shields.io/github/commit-activity/y/iopsthecloud/regiedeseauxmpl.svg?style=for-the-badge
-[commits]: https://github.com/iopsthecloud/regiedeseauxmpl/commits/main
-[license-shield]: https://img.shields.io/github/license/iopsthecloud/regiedeseauxmpl.svg?style=for-the-badge
-[license]: https://github.com/iopsthecloud/regiedeseauxmpl/blob/main/LICENSE
-[release-shield]: https://img.shields.io/github/release/iopsthecloud/regiedeseauxmpl.svg?style=for-the-badge
-[release]: https://github.com/iopsthecloud/regiedeseauxmpl/releases
-[repo]: https://github.com/iopsthecloud/regiedeseauxmpl
-[issues]: https://github.com/iopsthecloud/regiedeseauxmpl/issues
+[commits-shield]: https://img.shields.io/github/commit-activity/y/iopsthecloud/regideseaux3m-hass.svg?style=for-the-badge
+[commits]: https://github.com/iopsthecloud/regideseaux3m-hass/commits/main
+[license-shield]: https://img.shields.io/github/license/iopsthecloud/regideseaux3m-hass.svg?style=for-the-badge
+[license]: https://github.com/iopsthecloud/regideseaux3m-hass/blob/main/LICENSE
+[release-shield]: https://img.shields.io/github/release/iopsthecloud/regideseaux3m-hass.svg?style=for-the-badge
+[release]: https://github.com/iopsthecloud/regideseaux3m-hass/releases
+[repo]: https://github.com/iopsthecloud/regideseaux3m-hass
+[issues]: https://github.com/iopsthecloud/regideseaux3m-hass/issues

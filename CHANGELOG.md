@@ -49,6 +49,6 @@ et ce projet adhère à [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Récupération des index des compteurs
 - Flux de configuration basique
 
-[non publié]: https://github.com/iopsthecloud/regiedeseauxmpl/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/iopsthecloud/regiedeseauxmpl/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/iopsthecloud/regiedeseauxmpl/releases/tag/v0.1.0
+[non publié]: https://github.com/iopsthecloud/regideseaux3m-hass/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/iopsthecloud/regideseaux3m-hass/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/iopsthecloud/regideseaux3m-hass/releases/tag/v0.1.0

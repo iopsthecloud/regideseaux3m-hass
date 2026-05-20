@@ -1,8 +1,8 @@
 {
   "domain": "regiedeseauxmpl",
   "name": "Régie des Eaux Montpellier",
-  "documentation": "https://github.com/iopsthecloud/regiedeseauxmpl/blob/main/README.md",
-  "issue_tracker": "https://github.com/iopsthecloud/regiedeseauxmpl/issues",
+  "documentation": "https://github.com/iopsthecloud/regideseaux3m-hass/blob/main/README.md",
+  "issue_tracker": "https://github.com/iopsthecloud/regideseaux3m-hass/issues",
   "dependencies": [],
   "codeowners": ["@iopsthecloud"],
   "requirements": ["curl_cffi>=0.6.0"],
