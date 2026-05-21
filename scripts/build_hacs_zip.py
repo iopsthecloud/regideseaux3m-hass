@@ -89,7 +89,7 @@ def main():
         "--version",
         type=str,
         default=None,
-        help="Version to use (default: from manifest.json)"
+        help="Version to use (default: from manifest.json). Use 'auto' to use manifest version."
     )
     parser.add_argument(
         "--no-cleanup",
@@ -102,8 +102,13 @@ def main():
     print(f"📦 Building HACS ZIP file...")
     print(f"   Component dir: {COMPONENT_DIR}")
     
+    # If version is 'dev' or 'auto', use manifest version
+    version = args.version
+    if version in ("dev", "auto", None):
+        version = get_version()
+    
     # Build ZIP
-    zip_path = build_zip(args.version)
+    zip_path = build_zip(version)
     
     print(f"✅ ZIP created: {zip_path}")
     print(f"   Size: {zip_path.stat().st_size / 1024:.1f} KB")
