@@ -79,6 +79,7 @@ jobs:
 
       - name: Build ZIP
         run: |
+          uv venv
           uv pip install -r pyproject.toml
           python scripts/build_hacs_zip.py --version ${{ github.event.inputs.release == 'true' && 'auto' || 'dev' }}
 
