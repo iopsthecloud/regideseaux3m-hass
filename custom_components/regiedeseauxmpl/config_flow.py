@@ -16,8 +16,6 @@ from .const import (
     CONF_PASSWORD,
     CONF_SCAN_INTERVAL,
     LOGGER,
-    MIN_SCAN_INTERVAL,
-    MAX_SCAN_INTERVAL,
     DEFAULT_SCAN_INTERVAL,
 )
 from .exceptions import CannotConnect, InvalidAuth

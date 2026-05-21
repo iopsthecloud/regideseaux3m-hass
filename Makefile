@@ -5,7 +5,7 @@ UV := uv
 PYTHON := .venv/bin/python
 PROJECT_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 
-.PHONY: help setup clean test run lint format
+.PHONY: help setup clean test run lint format test-workflow debug-workflow
 
 # Default target
 help:
@@ -20,12 +20,16 @@ help:
 	@echo "  make test           # Run all tests with pytest"
 	@echo "  make test-cov       # Run tests with coverage"
 	@echo "  make test-watch     # Run tests in watch mode"
+	@echo "  make test-workflow  # Run tests as in GitHub workflow (excludes auth tests)"
 	@echo ""
 	@echo "Development:"
 	@echo "  make run            # Run standalone test (needs REGIE_USERNAME/PASSWORD)"
 	@echo "  make shell          # Activate virtual env in shell"
 	@echo "  make lint           # Run code linting"
 	@echo "  make format         # Format code"
+	@echo ""
+	@echo "CI/CD Debug:"
+	@echo "  make debug-workflow # Reproduce full GitHub Actions workflow locally"
 	@echo ""
 	@echo "Home Assistant:"
 	@echo "  make ha-setup       # Setup for HA development"
@@ -94,11 +98,11 @@ shell:
 	@echo "🐚 Starting shell with virtual environment..."
 	. .venv/bin/activate && bash
 
-# Lint code
+# Lint code (same directories as GitHub workflow)
 lint:
 	@echo "🔍 Running linting..."
 	$(UV) pip install ruff
-	$(PYTHON) -m ruff check custom_components standalone tests examples scripts
+	$(PYTHON) -m ruff check custom_components/regiedeseauxmpl/
 
 # Format code
 format:
@@ -124,6 +128,17 @@ uv-version:
 pkgs:
 	@echo "📦 Installed packages:"
 	$(UV) pip list
+
+# Run tests as in GitHub workflow (excludes tests requiring real credentials)
+test-workflow:
+	@echo "🧪 Running tests as in GitHub workflow..."
+	REGIE_USERNAME="test@example.com" REGIE_PASSWORD="test_password" $(UV) run pytest tests/ -v --tb=short -k "not test_authentication and not test_meter_index"
+
+# Debug GitHub Actions workflow locally
+debug-workflow:
+	@echo "🔍 Debugging full GitHub Actions workflow..."
+	@chmod +x scripts/debug_workflow.sh
+	./scripts/debug_workflow.sh
 
 # Sync dependencies (update lock file)
 sync:

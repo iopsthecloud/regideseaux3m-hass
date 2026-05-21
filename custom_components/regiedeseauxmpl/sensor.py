@@ -18,6 +18,7 @@ from .const import (
     ATTR_CONTRACT_ID,
     ATTR_SERIAL_NUMBER,
     ATTR_UNIT,
+    LOGGER,
 )
 from .coordinator import RegieDesEauxCoordinator
 from .entity import RegieDesEauxEntity
