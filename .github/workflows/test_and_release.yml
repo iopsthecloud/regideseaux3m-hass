@@ -19,6 +19,8 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.14"]
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     
     steps:
       - name: Checkout repository
@@ -30,8 +32,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: "pip"
-          cache-dependency-path: "pyproject.toml"
 
       - name: Install uv
         run: |
@@ -60,6 +60,8 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     
     steps:
       - name: Checkout repository
@@ -92,6 +94,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' && github.event.inputs.release == 'true')
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     
     steps:
       - name: Checkout repository
