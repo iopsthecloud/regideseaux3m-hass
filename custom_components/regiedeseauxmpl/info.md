@@ -56,21 +56,40 @@ Une fois l'intégration configurée, vous pouvez modifier les paramètres :
 Pour chaque compteur configuré, une entité sensor sera créée :
 
 - **Domaine** : `sensor`
-- **ID** : `sensor.regiedeseauxmpl_<contract_id>`
-- **Nom** : Nom du contrat (ex: "Compteur Principal – Adresse")
+- **ID** : `sensor.regiedeseauxmpl_<short_name>_<serial>`
+- **Exemple** : `sensor.regiedeseauxmpl_eau_potable_i23ia727517`
+- **Nom** : Nom court du contrat (ex: "Eau potable")
 - **Classe** : `water` (intégration au tableau de bord Énergie)
 - **État** : Index en m³ (ex: `123.456`)
+- **State Class** : `total_increasing` (compatible avec le suivi de consommation)
+
+### Intégration avec le Tableau Énergie
+
+✅ **Compatibilité totale** avec le tableau de bord Énergie de Home Assistant :
+- Les entités apparaissent automatiquement dans **Énergie → Eau**
+- Peuvent être utilisées comme **"Upstream devices"** pour d'autres appareils (lave-linge, etc.)
+- Prise en charge native du suivi de consommation
 
 ### Attributs Disponibles
 
 | Attribut | Description | Exemple |
 |----------|-------------|---------|
-| `friendly_name` | Nom du compteur | "Compteur Principal – 123 Rue de la Paix" |
+| `friendly_name` | Nom du compteur | "Eau potable" |
 | `last_updated` | Dernière mise à jour | "2024-05-20T14:30:00+02:00" |
 | `last_reading` | Date du dernier relevé | "2024-05-20" |
 | `contract_id` | ID du contrat | "CONTRAT12345" |
 | `serial_number` | Numéro de série | "SN12345678" |
 | `unit` | Unité de mesure | "m³" |
+
+### Device Information
+
+Chaque entité est associée à un **device** avec les informations suivantes :
+- **Fabricant** : Régie des Eaux Montpellier 3M
+- **Modèle** : Compteur <contract_id>
+- **Numéro de série** : Numéro unique du compteur
+- **Lié au** : Config entry de l'intégration
+
+> **Note** : Les devices sont visibles dans **Paramètres → Appareils et services → Appareils**
 
 ## Services
 

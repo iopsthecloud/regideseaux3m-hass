@@ -1,6 +1,7 @@
 {
   "title": "Régie des Eaux Montpellier",
   "domain": "regiedeseauxmpl",
+  
   "config_flow.title": "Régie des Eaux Montpellier",
   "config_flow.description": "Récupérer les index de consommation d'eau de la Régie des Eaux de Montpellier",
   "config_flow.username": "Adresse email",
@@ -9,5 +10,17 @@
   "config_flow.invalid_auth": "Identifiants invalides. Vérifiez votre email et mot de passe.",
   "config_flow.unknown": "Une erreur inattendue est survenue.",
   "config_flow.abort": "Configuration annulée",
-  "config_flow.reauth": "Réauthentification nécessaire"
+  "config_flow.reauth": "Réauthentification nécessaire",
+  
+  "entity.water_sensor": "Compteur d'eau",
+  
+  "attribute.last_updated": "Dernière mise à jour",
+  "attribute.last_reading": "Dernier relevé",
+  "attribute.contract_id": "ID du contrat",
+  "attribute.serial_number": "Numéro de série",
+  "attribute.unit": "Unité",
+  "attribute.friendly_name": "Nom du compteur",
+  
+  "service.refresh_meters.name": "Rafraîchir les compteurs d'eau",
+  "service.refresh_meters.description": "Force le rafraîchissement de tous les compteurs d'eau"
 }

@@ -40,13 +40,15 @@ class RegieDesEauxEntity(CoordinatorEntity[RegieDesEauxCoordinator]):
         serial = meter_data.get("serial_number") or meter_id
 
         self._attr_unique_id = f"{DOMAIN}_{meter_id}"
-        # Drives the default entity_id on first creation: e.g. "eau_potable_i23ia727517"
-        self._attr_suggested_object_id = f"{slugify(short)}_{serial.lower()}"
+        # Drives the default entity_id on first creation: e.g. "sensor.regiedeseauxmpl_eau_potable_i23ia727517"
+        self._attr_suggested_object_id = f"{DOMAIN}_{slugify(short)}_{serial.lower()}"
+        self._attr_entity_category = None  # Ensure entities are not diagnostic/config
 
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, meter_id)},
             name=short,
-            manufacturer="Régie des Eaux Montpellier",
-            model=meter_data["name"],  # full label (with address) shown on Devices page
+            manufacturer="Régie des Eaux Montpellier 3M",
+            model=f"Compteur {meter_data.get('contract_id', 'N/A')}",
             serial_number=serial,
+            via_device=(DOMAIN, coordinator.config_entry.entry_id),
         )
