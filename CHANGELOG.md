@@ -31,6 +31,21 @@ et ce projet adhère à [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [0.2.1] - 2026-05-22
+
+### Corrigé
+- Ré-authentification automatique à l'expiration du `tokenAuthentique` :
+  un 401/403 sur un appel de données déclenche désormais une nouvelle
+  authentification suivie d'une nouvelle tentative. Auparavant, dès que le
+  token expirait (sous l'intervalle de scrutation), l'intégration restait
+  bloquée en erreur 401 indéfiniment et les capteurs passaient en
+  `unavailable` jusqu'à un rechargement manuel.
+- `async_add_entities` n'est plus `await` (callback synchrone) — corrige le
+  `TypeError: 'NoneType' object can't be awaited` au démarrage de la
+  plateforme `sensor`.
+
+---
+
 ## [0.2.0] - 2025-01-XX
 
 ### Ajouté
@@ -49,6 +64,7 @@ et ce projet adhère à [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Récupération des index des compteurs
 - Flux de configuration basique
 
-[non publié]: https://github.com/iopsthecloud/regideseaux3m-hass/compare/v0.2.0...HEAD
+[non publié]: https://github.com/iopsthecloud/regideseaux3m-hass/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/iopsthecloud/regideseaux3m-hass/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/iopsthecloud/regideseaux3m-hass/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/iopsthecloud/regideseaux3m-hass/releases/tag/v0.1.0

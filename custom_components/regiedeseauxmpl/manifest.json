@@ -7,7 +7,7 @@
   "codeowners": ["@iopsthecloud"],
   "requirements": ["curl_cffi>=0.6.0"],
   "iot_class": "cloud_polling",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "integration_type": "hub",
   "config_flow": true,
   "single_config_entry": false,

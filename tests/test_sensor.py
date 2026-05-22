@@ -121,12 +121,13 @@ class TestSensorSetup:
         mock_hass.data = {DOMAIN: {"test_entry": mock_coordinator}}
         
         added_entities = []
-        
-        async def mock_add_entities(entities):
+
+        # AddEntitiesCallback is synchronous - it must not be awaited.
+        def mock_add_entities(entities):
             added_entities.extend(entities)
-        
-        mock_async_add_entities = AsyncMock(side_effect=mock_add_entities)
-        
+
+        mock_async_add_entities = MagicMock(side_effect=mock_add_entities)
+
         await async_setup_entry(
             mock_hass,
             mock_entry,

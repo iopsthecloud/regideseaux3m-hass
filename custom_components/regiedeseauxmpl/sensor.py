@@ -32,7 +32,7 @@ async def async_setup_entry(
     """Set up the sensor platform."""
     coordinator: RegieDesEauxCoordinator = hass.data[DOMAIN][entry.entry_id]
 
-    await async_add_entities(
+    async_add_entities(
         RegieDesEauxWaterSensor(coordinator, meter_id)
         for meter_id in coordinator.data["meters"]
     )

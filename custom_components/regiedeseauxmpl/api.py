@@ -166,16 +166,37 @@ class RegieDesEauxAPI:
             LOGGER.error("Connection error during authentication: %s", err)
             raise CannotConnect from err
 
+    async def _async_authenticated_get(self, url: str, timeout: int = 10):
+        """Perform an authenticated GET, re-authenticating once on 401/403.
+
+        The server-side ``tokenAuthentique`` expires well within the polling
+        interval. Without this retry the coordinator stays broken permanently
+        after the first expiry: ``_is_authenticated`` would never reset and the
+        dead token would be reused on every refresh.
+        """
+        sess = self._get_session()
+        resp = None
+        for attempt in (1, 2):
+            if not self._is_authenticated:
+                await self.async_authenticate()
+            token = self._auth_token or self._app_token or ""
+            async with asyncio.timeout(timeout):
+                resp = await sess.get(url, headers=self._base_headers(token))
+            if resp.status_code in (401, 403) and attempt == 1:
+                LOGGER.info(
+                    "API token rejected (HTTP %s) - re-authenticating",
+                    resp.status_code,
+                )
+                self._is_authenticated = False
+                self._app_token = None
+                self._auth_token = None
+                continue
+            break
+        return resp
+
     async def async_get_meters(self) -> list[dict]:
         """Get the list of meters."""
-        if not self._is_authenticated:
-            await self.async_authenticate()
-
         LOGGER.debug("Fetching meters")
-        sess = self._get_session()
-        # Post-auth calls use the tokenAuthentique (TKN-...) returned by authentification
-        token = self._auth_token or self._app_token or ""
-        headers = self._base_headers(token)
 
         # The endpoint requires query parameters; bare URL returns 404
         url = (
@@ -184,59 +205,63 @@ class RegieDesEauxAPI:
         )
 
         try:
-            async with asyncio.timeout(10):
-                resp = await sess.get(url, headers=headers)
-                if resp.status_code != 200:
-                    raise APIError(f"Unexpected status code: {resp.status_code}")
-
-                try:
-                    data = resp.json()
-                except Exception:
-                    text = resp.text
-                    LOGGER.warning("Non-JSON from /Abonnement/contrats: %s", text[:200])
-                    if "identifiant" in text or "login" in text:
-                        self._is_authenticated = False
-                        raise InvalidAuth
-                    return [{
-                        "id": "meter_default",
-                        "name": "Compteur Principal (Fallback)",
-                        "serial_number": "Unknown",
-                        "unit": "m³",
-                    }]
-
-                # Response: {resultats: [...], nbTotalResultats: N}
-                meters = []
-                items = (
-                    data.get("resultats", [])
-                    if isinstance(data, dict)
-                    else data
-                )
-                for item in items:
-                    numero_contrat = item.get("numeroContrat")
-                    numero_physique = item.get("numeroPhysiqueAppareil")
-                    libelle = item.get("libelle", "")
-                    adresse = item.get("adresseLivraisonConstruite", "")
-                    if numero_contrat:
-                        meters.append({
-                            "id": numero_contrat,
-                            "name": f"{libelle.capitalize()} – {adresse}" if libelle else f"Contrat {numero_contrat}",
-                            "serial_number": numero_physique or numero_contrat,
-                            "unit": "m³",
-                            "contract_id": numero_contrat,
-                        })
-
-                if not meters:
-                    LOGGER.warning("No meters found in JSON response: %s", data)
-                    return [{
-                        "id": "meter_default",
-                        "name": "Compteur Principal",
-                        "serial_number": "Unknown",
-                        "unit": "m³",
-                    }]
-                return meters
-
+            resp = await self._async_authenticated_get(url, timeout=10)
         except (ConnectionError, TimeoutError, asyncio.TimeoutError) as err:
             raise CannotConnect from err
+
+        if resp.status_code in (401, 403):
+            # Re-authentication was already retried inside the helper, so the
+            # credentials themselves are being rejected.
+            self._is_authenticated = False
+            raise InvalidAuth
+        if resp.status_code != 200:
+            raise APIError(f"Unexpected status code: {resp.status_code}")
+
+        try:
+            data = resp.json()
+        except Exception:
+            text = resp.text
+            LOGGER.warning("Non-JSON from /Abonnement/contrats: %s", text[:200])
+            if "identifiant" in text or "login" in text:
+                self._is_authenticated = False
+                raise InvalidAuth
+            return [{
+                "id": "meter_default",
+                "name": "Compteur Principal (Fallback)",
+                "serial_number": "Unknown",
+                "unit": "m³",
+            }]
+
+        # Response: {resultats: [...], nbTotalResultats: N}
+        meters = []
+        items = (
+            data.get("resultats", [])
+            if isinstance(data, dict)
+            else data
+        )
+        for item in items:
+            numero_contrat = item.get("numeroContrat")
+            numero_physique = item.get("numeroPhysiqueAppareil")
+            libelle = item.get("libelle", "")
+            adresse = item.get("adresseLivraisonConstruite", "")
+            if numero_contrat:
+                meters.append({
+                    "id": numero_contrat,
+                    "name": f"{libelle.capitalize()} – {adresse}" if libelle else f"Contrat {numero_contrat}",
+                    "serial_number": numero_physique or numero_contrat,
+                    "unit": "m³",
+                    "contract_id": numero_contrat,
+                })
+
+        if not meters:
+            LOGGER.warning("No meters found in JSON response: %s", data)
+            return [{
+                "id": "meter_default",
+                "name": "Compteur Principal",
+                "serial_number": "Unknown",
+                "unit": "m³",
+            }]
+        return meters
 
     async def async_get_meter_index(self, meter_id: str) -> dict:
         """Get the latest meter index (m³) via listeConsommationsInstanceAlerteChart.
@@ -245,13 +270,7 @@ class RegieDesEauxAPI:
         Returns the most recent 'Réel' entry as {"index": float, "timestamp": str}.
         ``valeurIndex`` is in litres — divide by 1000 for m³.
         """
-        if not self._is_authenticated:
-            await self.async_authenticate()
-
         LOGGER.debug("Fetching index for meter %s", meter_id)
-        sess = self._get_session()
-        token = self._auth_token or self._app_token or ""
-        headers = self._base_headers(token)
 
         now = datetime.now(timezone.utc)
         ts_end = int(now.timestamp())
@@ -263,42 +282,40 @@ class RegieDesEauxAPI:
         )
 
         try:
-            async with asyncio.timeout(15):
-                resp = await sess.get(url, headers=headers)
-
-            if resp.status_code != 200 or not resp.content:
-                LOGGER.warning(
-                    "listeConsommationsInstanceAlerteChart/%s returned %s",
-                    meter_id, resp.status_code,
-                )
-                return {"index": None, "timestamp": None}
-
-            try:
-                data = resp.json()
-            except Exception:
-                LOGGER.warning("Non-JSON response for meter index %s", meter_id)
-                return {"index": None, "timestamp": None}
-
-            consommations = data.get("consommations", [])
-            # Keep only real readings (typeAgregat == "Réel") and pick the latest
-            reels = [
-                c for c in consommations
-                if c.get("typeAgregat") == "Réel" and c.get("valeurIndex") is not None
-            ]
-            if not reels:
-                # Fall back to any entry with a valeurIndex
-                reels = [c for c in consommations if c.get("valeurIndex") is not None]
-
-            if not reels:
-                LOGGER.info("No index entries found for meter %s", meter_id)
-                return {"index": None, "timestamp": None}
-
-            latest = max(reels, key=lambda c: c.get("dateReleve", ""))
-            index_m3 = round(float(latest["valeurIndex"]) / 1000.0, 3)
-            return {
-                "index": index_m3,
-                "timestamp": latest.get("dateReleve"),
-            }
-
+            resp = await self._async_authenticated_get(url, timeout=15)
         except (ConnectionError, TimeoutError, asyncio.TimeoutError) as err:
             raise CannotConnect from err
+
+        if resp.status_code != 200 or not resp.content:
+            LOGGER.warning(
+                "listeConsommationsInstanceAlerteChart/%s returned %s",
+                meter_id, resp.status_code,
+            )
+            return {"index": None, "timestamp": None}
+
+        try:
+            data = resp.json()
+        except Exception:
+            LOGGER.warning("Non-JSON response for meter index %s", meter_id)
+            return {"index": None, "timestamp": None}
+
+        consommations = data.get("consommations", [])
+        # Keep only real readings (typeAgregat == "Réel") and pick the latest
+        reels = [
+            c for c in consommations
+            if c.get("typeAgregat") == "Réel" and c.get("valeurIndex") is not None
+        ]
+        if not reels:
+            # Fall back to any entry with a valeurIndex
+            reels = [c for c in consommations if c.get("valeurIndex") is not None]
+
+        if not reels:
+            LOGGER.info("No index entries found for meter %s", meter_id)
+            return {"index": None, "timestamp": None}
+
+        latest = max(reels, key=lambda c: c.get("dateReleve", ""))
+        index_m3 = round(float(latest["valeurIndex"]) / 1000.0, 3)
+        return {
+            "index": index_m3,
+            "timestamp": latest.get("dateReleve"),
+        }
