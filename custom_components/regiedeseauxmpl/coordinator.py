@@ -7,14 +7,14 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
 
+from .api import RegieDesEauxAPI
 from .const import (
+    DEFAULT_SCAN_INTERVAL,
     DOMAIN,
     LOGGER,
-    DEFAULT_SCAN_INTERVAL,
-    MIN_SCAN_INTERVAL,
     MAX_SCAN_INTERVAL,
+    MIN_SCAN_INTERVAL,
 )
-from .api import RegieDesEauxAPI
 from .exceptions import RegieDesEauxError
 
 
@@ -25,7 +25,7 @@ class RegieDesEauxCoordinator(DataUpdateCoordinator[dict]):
         self,
         hass: HomeAssistant,
         api: RegieDesEauxAPI,
-        update_interval: int | float | timedelta | None = None,
+        update_interval: float | timedelta | None = None,
     ) -> None:
         """Initialize the coordinator.
         

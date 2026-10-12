@@ -12,12 +12,12 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import (
-    DOMAIN,
-    ATTR_LAST_UPDATED,
-    ATTR_LAST_READING,
     ATTR_CONTRACT_ID,
+    ATTR_LAST_READING,
+    ATTR_LAST_UPDATED,
     ATTR_SERIAL_NUMBER,
     ATTR_UNIT,
+    DOMAIN,
     LOGGER,
 )
 from .coordinator import RegieDesEauxCoordinator

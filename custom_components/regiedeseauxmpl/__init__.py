@@ -7,10 +7,10 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .api import RegieDesEauxAPI
 from .const import (
-    DOMAIN,
-    CONF_USERNAME,
     CONF_PASSWORD,
     CONF_SCAN_INTERVAL,
+    CONF_USERNAME,
+    DOMAIN,
     LOGGER,
     PLATFORMS,
 )

@@ -11,12 +11,12 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .api import RegieDesEauxAPI
 from .const import (
-    DOMAIN,
-    CONF_USERNAME,
     CONF_PASSWORD,
     CONF_SCAN_INTERVAL,
-    LOGGER,
+    CONF_USERNAME,
     DEFAULT_SCAN_INTERVAL,
+    DOMAIN,
+    LOGGER,
 )
 from .exceptions import CannotConnect, InvalidAuth
 
@@ -76,7 +76,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 errors["base"] = "cannot_connect"
             except InvalidAuth:
                 errors["base"] = "invalid_auth"
-            except Exception:  # pylint: disable=broad-except
+            except Exception:  # pylint: disable=broad-except  # noqa: BLE001
                 LOGGER.exception("Unexpected exception")
                 errors["base"] = "unknown"
 

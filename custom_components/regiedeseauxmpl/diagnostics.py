@@ -44,7 +44,7 @@ async def async_get_config_entry_diagnostics(
             "has_app_token": api._app_token is not None,
             "has_auth_token": api._auth_token is not None,
         }
-    except Exception:
+    except Exception:  # noqa: BLE001 — diagnostics must never raise
         data["api"] = {"error": "Unable to get API status"}
     
     return async_redact_data(data, TO_REDACT)

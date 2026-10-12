@@ -8,15 +8,21 @@ from __future__ import annotations
 
 import asyncio
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from curl_cffi.requests import AsyncSession
+from curl_cffi.requests.exceptions import RequestException
 
 from .const import (
-    LOGGER, LOGIN_URL, GENERATE_TOKEN_URL, API_ROOT_URL, BASE_URL,
-    WS_APPLICATION_LOGIN, WS_APPLICATION_PWD,
+    API_ROOT_URL,
+    BASE_URL,
+    GENERATE_TOKEN_URL,
+    LOGGER,
+    LOGIN_URL,
+    WS_APPLICATION_LOGIN,
+    WS_APPLICATION_PWD,
 )
-from .exceptions import CannotConnect, InvalidAuth, APIError
+from .exceptions import APIError, CannotConnect, InvalidAuth
 
 _IMPERSONATE = "chrome110"
 
@@ -81,7 +87,7 @@ class RegieDesEauxAPI:
             async with asyncio.timeout(10):
                 await sess.get(BASE_URL, headers={"User-Agent": self._user_agent})
                 LOGGER.debug("Session cookies initialised")
-        except Exception as err:
+        except (TimeoutError, RequestException) as err:
             LOGGER.warning("Could not initialise session cookies: %s", err)
 
     async def _async_get_app_token(self) -> str:
@@ -110,7 +116,7 @@ class RegieDesEauxAPI:
                     raise CannotConnect
                 LOGGER.debug("App token obtained: %s…", token[:20])
                 return token
-        except (ConnectionError, TimeoutError, asyncio.TimeoutError) as err:
+        except (ConnectionError, TimeoutError) as err:
             raise CannotConnect from err
 
     async def async_authenticate(self) -> bool:
@@ -146,7 +152,7 @@ class RegieDesEauxAPI:
                 if resp.status_code == 200:
                     try:
                         data = resp.json()
-                    except Exception:
+                    except ValueError:
                         data = {}
                     # tokenAuthentique (TKN-...) must be used for all post-auth API calls
                     self._auth_token = data.get("tokenAuthentique")
@@ -162,7 +168,7 @@ class RegieDesEauxAPI:
                 )
                 raise InvalidAuth
 
-        except (ConnectionError, TimeoutError, asyncio.TimeoutError) as err:
+        except (ConnectionError, TimeoutError) as err:
             LOGGER.error("Connection error during authentication: %s", err)
             raise CannotConnect from err
 
@@ -206,7 +212,7 @@ class RegieDesEauxAPI:
 
         try:
             resp = await self._async_authenticated_get(url, timeout=10)
-        except (ConnectionError, TimeoutError, asyncio.TimeoutError) as err:
+        except (ConnectionError, TimeoutError) as err:
             raise CannotConnect from err
 
         if resp.status_code in (401, 403):
@@ -219,7 +225,7 @@ class RegieDesEauxAPI:
 
         try:
             data = resp.json()
-        except Exception:
+        except ValueError:
             text = resp.text
             LOGGER.warning("Non-JSON from /Abonnement/contrats: %s", text[:200])
             if "identifiant" in text or "login" in text:
@@ -272,7 +278,7 @@ class RegieDesEauxAPI:
         """
         LOGGER.debug("Fetching index for meter %s", meter_id)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         ts_end = int(now.timestamp())
         ts_start = int((now - timedelta(days=365)).timestamp())
 
@@ -283,7 +289,7 @@ class RegieDesEauxAPI:
 
         try:
             resp = await self._async_authenticated_get(url, timeout=15)
-        except (ConnectionError, TimeoutError, asyncio.TimeoutError) as err:
+        except (ConnectionError, TimeoutError) as err:
             raise CannotConnect from err
 
         if resp.status_code != 200 or not resp.content:
@@ -295,7 +301,7 @@ class RegieDesEauxAPI:
 
         try:
             data = resp.json()
-        except Exception:
+        except ValueError:
             LOGGER.warning("Non-JSON response for meter index %s", meter_id)
             return {"index": None, "timestamp": None}
 
