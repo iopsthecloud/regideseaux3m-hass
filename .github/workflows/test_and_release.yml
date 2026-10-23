@@ -55,6 +55,10 @@ jobs:
           REGIE_USERNAME: "test@example.com"
           REGIE_PASSWORD: "test_password"
 
+      - name: Run integration tests (real Home Assistant core)
+        run: |
+          uv run --no-project --with pytest-homeassistant-custom-component==0.13.373 --with curl_cffi python -m pytest tests_ha/ -v --tb=short
+
   build:
     name: Build HACS ZIP
     needs: test
