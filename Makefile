@@ -5,7 +5,7 @@ UV := uv
 PYTHON := .venv/bin/python
 PROJECT_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 
-.PHONY: help setup clean test run lint format test-workflow debug-workflow
+.PHONY: help setup clean test test-ha run lint format test-workflow debug-workflow
 
 # Default target
 help:
@@ -19,6 +19,7 @@ help:
 	@echo "Testing:"
 	@echo "  make test           # Run all tests with pytest"
 	@echo "  make test-cov       # Run tests with coverage"
+	@echo "  make test-ha        # Run integration tests on a real Home Assistant core"
 	@echo "  make test-watch     # Run tests in watch mode"
 	@echo "  make test-workflow  # Run tests as in GitHub workflow (excludes auth tests)"
 	@echo ""
@@ -58,6 +59,13 @@ install:
 test:
 	@echo "🧪 Running tests..."
 	$(PYTHON) -m pytest tests/ -v --tb=short
+
+# Integration tests on a real HA core (pytest-homeassistant-custom-component).
+# Separate session: tests/conftest.py mocks the homeassistant package.
+PHACC_VERSION ?= 0.13.373
+test-ha:
+	@echo "🧪 Running HA integration tests (PHACC $(PHACC_VERSION))..."
+	$(UV) run --no-project --python ">=3.14.2,<3.15" --with pytest-homeassistant-custom-component==$(PHACC_VERSION) --with curl_cffi python -m pytest tests_ha/ -v --tb=short -p no:cacheprovider
 
 # Run tests with coverage
 test-cov:

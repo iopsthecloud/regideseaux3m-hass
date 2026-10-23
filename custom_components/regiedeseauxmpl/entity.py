@@ -50,5 +50,4 @@ class RegieDesEauxEntity(CoordinatorEntity[RegieDesEauxCoordinator]):
             manufacturer="Régie des Eaux Montpellier 3M",
             model=f"Compteur {meter_data.get('contract_id', 'N/A')}",
             serial_number=serial,
-            via_device=(DOMAIN, coordinator.config_entry.entry_id),
         )
