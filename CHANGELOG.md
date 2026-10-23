@@ -17,7 +17,6 @@ et ce projet adhère à [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Outils de diagnostic via l'intégration Diagnostics
 - Traductions complètes en français et anglais
 - Documentation complète pour HACS
-- Tests d'intégration sur un vrai Home Assistant (`tests_ha/`, `make test-ha`)
 
 ### Modifié
 - Amélioration de la gestion des erreurs et des timeouts
@@ -29,7 +28,16 @@ et ce projet adhère à [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Gestion des cookies BIG-IP pour une connexion stable
 - Problèmes de TLS fingerprinting avec l'API
 - Affichage des attributs des entités
+
+---
+
+## [0.2.2] - 2026-10-23
+
+### Corrigé
 - Paramètre `via_device` déprécié (HA 2026.8+, supprimé en 2027.8) retiré du `DeviceInfo` : il pointait vers un appareil parent jamais créé (#1)
+
+### Ajouté
+- Tests d'intégration sur un vrai Home Assistant (`tests_ha/`, `make test-ha`, étape CI)
 
 ---
 
@@ -66,7 +74,8 @@ et ce projet adhère à [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Récupération des index des compteurs
 - Flux de configuration basique
 
-[non publié]: https://github.com/iopsthecloud/regideseaux3m-hass/compare/v0.2.1...HEAD
+[non publié]: https://github.com/iopsthecloud/regideseaux3m-hass/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/iopsthecloud/regideseaux3m-hass/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/iopsthecloud/regideseaux3m-hass/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/iopsthecloud/regideseaux3m-hass/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/iopsthecloud/regideseaux3m-hass/releases/tag/v0.1.0
