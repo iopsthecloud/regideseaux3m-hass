@@ -99,6 +99,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' && github.event.inputs.release == 'true')
+    permissions:
+      contents: write
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     
@@ -117,12 +119,13 @@ jobs:
       - name: Get version
         id: version
         run: |
-          import json
+          import json, os
           with open("custom_components/regiedeseauxmpl/manifest.json") as f:
               manifest = json.load(f)
           version = manifest["version"]
           print(f"VERSION={version}")
-          echo "VERSION=${version}" >> $GITHUB_OUTPUT
+          with open(os.environ["GITHUB_OUTPUT"], "a") as out:
+              out.write(f"VERSION={version}\n")
         shell: python
 
       - name: Create release
